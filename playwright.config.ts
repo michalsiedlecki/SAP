@@ -22,16 +22,17 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html', { title: 'SAP Fioneer ESG - QA Challenge', outputFolder: 'playwright-report', open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   timeout: 30_000,
   expect: {
-    timeout: 10_000
+    timeout: 10_000,
   },
   use: {
     baseURL: 'https://www.sapfioneer.com/',
     trace: 'on-first-retry',
   },
+  captureGitInfo: { commit: true, diff: true },
 
   /* Configure projects for major browsers */
   projects: [
