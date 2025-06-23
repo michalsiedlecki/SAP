@@ -1,4 +1,5 @@
 import { Locator, Page } from '@playwright/test';
+import { PageMeta } from '../types/page-meta';
 
 export class HeaderPage {
   readonly hamburgerMenu: Locator;
@@ -8,20 +9,14 @@ export class HeaderPage {
   readonly columnNavigationCategory: Locator;
   readonly mobileNavigationMenu: Locator;
   readonly mobileTopNavigationCategory: Locator;
+  readonly mobileSideNavigationCategory: Locator;
   readonly mobileColumnNavigationCategory: Locator;
 
-  readonly categories = {
-    top: {
-      Products: {
-        side: {
-          'Finance & ESG': {
-            column: {
-              'ESG and climate management': 'ESG KPI Engine',
-            },
-          },
-        },
-      },
-    },
+  readonly eSGKpiEngine: PageMeta = {
+    name: 'ESG KPI Engine',
+    url: 'finance-esg/esg-kpi-engine/',
+    sideCategory: 'Finance & ESG',
+    topCategory: 'Products',
   };
 
   constructor(public readonly page: Page) {
@@ -32,10 +27,22 @@ export class HeaderPage {
     this.columnNavigationCategory = this.navigationMenu.locator('.walker__columns a');
     this.mobileNavigationMenu = page.locator('#menu-walker-1');
     this.mobileTopNavigationCategory = this.mobileNavigationMenu.locator('.menu-item__link');
+    this.mobileSideNavigationCategory = this.mobileNavigationMenu.locator('.accordion__item');
     this.mobileColumnNavigationCategory = this.mobileNavigationMenu.locator('.flex-column a');
   }
 
-  //   async navigateToColumnCategory(){
+  async openPageFromMenu(pageMeta: PageMeta, isMobile = false) {
+    if (isMobile) {
+      this.hamburgerMenu.click();
+      await this.mobileTopNavigationCategory.filter({ hasText: this.eSGKpiEngine.topCategory }).click();
+      await this.mobileSideNavigationCategory.filter({ hasText: this.eSGKpiEngine.sideCategory }).click();
+      await this.mobileColumnNavigationCategory.filter({ hasText: this.eSGKpiEngine.name }).click();
+    } else {
+      await this.topNavigationCategory.filter({ hasText: pageMeta.topCategory }).click();
+      await this.sideNavigationCategory.filter({ hasText: pageMeta.sideCategory }).click();
+      await this.columnNavigationCategory.filter({ hasText: pageMeta.name }).click();
+    }
+  }
 
-  //   }
+
 }

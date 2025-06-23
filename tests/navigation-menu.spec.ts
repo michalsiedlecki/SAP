@@ -1,25 +1,24 @@
 import { test, expect } from '@playwright/test';
 import { HeaderPage } from '../pages/header-page';
 import Tag from '../utils/tag';
+import { BasePage } from '../pages/base-page';
 
-test.describe('Check navigation menu', () => {
+test.describe('TEST2 -> Check navigation menu', () => {
+  let basePage: BasePage;
   let headerPage: HeaderPage;
   test.beforeEach(async ({ page }) => {
-    await page.goto('');
+    basePage = new BasePage(page);
     headerPage = new HeaderPage(page);
+    await page.goto('');
   });
 
   test('Check desktop menu navigate', { tag: Tag.DESKTOP }, async ({ page }) => {
-    await headerPage.topNavigationCategory.filter({ hasText: 'Products' }).click();
-    await headerPage.sideNavigationCategory.filter({ hasText: 'Finance & ESG' }).click();
-    await headerPage.columnNavigationCategory.filter({ hasText: 'ESG KPI Engine' }).click();
-    await expect(page).toHaveURL('finance-esg/esg-kpi-engine/');
+    await headerPage.openPageFromMenu(headerPage.eSGKpiEngine);
+    await basePage.verifyPageIsOpen(headerPage.eSGKpiEngine);
   });
 
-  test('Check mobile menu navigate', { tag: Tag.MOBILE }, async ({ page }) => {
-    await headerPage.hamburgerMenu.click();
-    await headerPage.mobileTopNavigationCategory.filter({ hasText: 'Products' }).click();
-    await headerPage.mobileColumnNavigationCategory.filter({ hasText: 'ESG KPI Engine' }).click();
-    await expect(page).toHaveURL('finance-esg/esg-kpi-engine/');
+  test('Check mobile menu navigate', { tag: Tag.MOBILE }, async ({ page, isMobile }) => {
+    await headerPage.openPageFromMenu(headerPage.eSGKpiEngine, isMobile);
+    await basePage.verifyPageIsOpen(headerPage.eSGKpiEngine);
   });
 });
