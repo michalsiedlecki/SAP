@@ -31,6 +31,8 @@ export default defineConfig({
   use: {
     baseURL: 'https://www.sapfioneer.com/',
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure', 
+    video: 'retain-on-failure',    
   },
   captureGitInfo: { commit: true, diff: true },
 

@@ -4,3 +4,10 @@ export type PageMeta = {
   topCategory: string;
   sideCategory: string;
 };
+
+export type E2ESolution = {
+  icon: string;
+  title: string;
+  description: string;
+  url: string;
+};

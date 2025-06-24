@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { PageMeta } from '../types/page-meta';
+import { PageMeta } from '../types/types';
 
 export class HeaderPage {
   readonly hamburgerMenu: Locator;

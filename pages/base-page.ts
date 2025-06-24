@@ -1,5 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
-import { PageMeta } from '../types/page-meta';
+import test, { expect, Locator, Page } from '@playwright/test';
 
 export class BasePage {
   readonly breadcrumbSection: Locator;
@@ -12,9 +11,11 @@ export class BasePage {
     this.category = this.breadcrumbSection.locator('.align-items-center span');
   }
 
-    async verifyPageIsOpen(pageMeta: PageMeta){
-    await expect(this.page).toHaveURL(pageMeta.url);
-    await expect(this.parentCategory).toHaveText(pageMeta.sideCategory.replaceAll('&', 'and'));
-    await expect(this.category).toHaveText(pageMeta.name);
-    }
+  async verifyPageIsOpen(url: string, name: string, parentCategory = '') {
+    await test.step(`Verify if page with url: ${url} is open`, async () => {
+      await expect(this.page).toHaveURL(url);
+      if (parentCategory) await expect(this.parentCategory).toHaveText(parentCategory.replaceAll('&', 'and'));
+      await expect(this.category).toHaveText(name.replaceAll('&', 'and'));
+    });
+  }
 }
