@@ -13,8 +13,9 @@ export class HomePage {
   readonly mobileSolutionTitle: Locator;
   readonly mobileSolutionDescription: Locator;
   readonly mobileSolutionLearnMore: Locator;
+  readonly getInTouch: Locator;
 
-  e2eSolutionsData: E2ESolution[] = [
+  readonly e2eSolutionsData: E2ESolution[] = [
     {
       icon: 'icon-money-cash-coin-billing-cash-currency-finance-payment.svg',
       title: 'Banking',
@@ -50,6 +51,7 @@ export class HomePage {
     this.mobileSolutionTitle = this.mobileSolutionCard.locator('.position-relative h3');
     this.mobileSolutionDescription = this.mobileSolutionCard.locator('.position-relative p');
     this.mobileSolutionLearnMore = this.mobileSolutionCard.locator('.btn').describe('Mobile Solution Learn More');
+    this.getInTouch = this.page.locator('.hero-block a[aria-label="Get in touch"]');
   }
 
   async checkE2ESolutions(isMobile: boolean, e2eSolutionsData: E2ESolution, i: number) {
