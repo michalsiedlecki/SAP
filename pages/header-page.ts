@@ -33,10 +33,16 @@ export class HeaderPage {
 
   async openPageFromMenu(pageMeta: PageMeta, isMobile = false) {
     if (isMobile) {
-      this.hamburgerMenu.click();
-      await this.mobileTopNavigationCategory.filter({ hasText: this.eSGKpiEngine.topCategory }).click();
-      await this.mobileSideNavigationCategory.filter({ hasText: this.eSGKpiEngine.sideCategory }).click();
-      await this.mobileColumnNavigationCategory.filter({ hasText: this.eSGKpiEngine.name }).click();
+      await this.hamburgerMenu.click();
+      await this.mobileTopNavigationCategory
+        .filter({ hasText: pageMeta.topCategory })
+        .click();
+      await this.mobileSideNavigationCategory
+        .filter({ hasText: pageMeta.sideCategory })
+        .click();
+      await this.mobileColumnNavigationCategory
+        .filter({ hasText: pageMeta.name })
+        .click();
     } else {
       await this.topNavigationCategory.filter({ hasText: pageMeta.topCategory }).click();
       await this.sideNavigationCategory.filter({ hasText: pageMeta.sideCategory }).click();
